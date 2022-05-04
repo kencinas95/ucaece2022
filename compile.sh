@@ -1,4 +1,4 @@
-#!/usr/bin sh
+#!/bin/sh
 
 BASE=$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )
 MAKE=$(which make)
@@ -22,6 +22,7 @@ clean()
 compile()
 {
     working_dir="$1"
+    echo "$working_dir"
     target_makefile="$working_dir/makefile"
 
     if [ ! -e "$target_makefile" ]; then
@@ -37,7 +38,6 @@ compile()
 }
 
 if [ $# -gt 0 ]; then
-
     for sub_dir in $@; do
         if [ -d "$BASE/$sub_dir" ]; then
             compile "$BASE/$sub_dir"
@@ -46,7 +46,7 @@ if [ $# -gt 0 ]; then
         fi
     done
 else
-    for sub_dir in "$BASE/*/"; do
+    for sub_dir in $BASE/*/; do        
         compile $sub_dir
     done
 fi 
